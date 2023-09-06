@@ -6,7 +6,6 @@ export default function DashboardPage() {
     <>
     <h1>WonderAI</h1>
     <h2> Dashboard Page || Protected </h2>
-      <UserButton afterSignOutUrl="/"/>
     </>
   );
 }
