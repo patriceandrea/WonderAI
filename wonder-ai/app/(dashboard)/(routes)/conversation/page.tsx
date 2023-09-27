@@ -1,20 +1,25 @@
 "use client";
-
+import axios from "axios";
 import * as z from "zod";
 import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import ChatCompletionRequestMessage from "openai";
 
 import Heading from "@/components/heading";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { userAgent } from "next/server";
 
 const ConversationPage = () => {
+  const router = useRouter();
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -25,9 +30,24 @@ const ConversationPage = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
+  
+      const newMessage = [...messages, userMessage];
+      const response = await axios.post("/api/conversation", {
+        messages: newMessage,
+      });
+  
+      setMessages((current) => [...current, userMessage, response.data]);
+  
+      form.reset();
+    } catch (error: any) {
+      // Handle errors
+      console.error(error);
+    } finally {
+      router.refresh();
+    }
   };
-
   return (
     <div>
       <Heading
@@ -59,12 +79,23 @@ const ConversationPage = () => {
                   </FormItem>
                 )}
               />
-              <Button className="col-span-12 lg:col-span-2 w-full"  disabled={isLoading}>Generate</Button>
+              <Button
+                className="col-span-12 lg:col-span-2 w-full"
+                disabled={isLoading}
+              >
+                Generate
+              </Button>
             </form>
           </Form>
         </div>
         <div className="space-y-4 mt-4">
-Message Content
+          <div className="flex flex-col-reserve gap-y-4">
+{messages.map((message) => (
+  <div key={message.content}>
+{message.content}
+  </div>
+))}
+          </div>
         </div>
       </div>
     </div>
