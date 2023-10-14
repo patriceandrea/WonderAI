@@ -5,7 +5,7 @@ type Props = {};
 
 const BotAvatar = (props: Props) => {
   return (
-    <Avatar className="h-20 w-20">
+    <Avatar className="h-10 w-10">
       <AvatarImage  src="/logo.jpg" />
     </Avatar>
   );
