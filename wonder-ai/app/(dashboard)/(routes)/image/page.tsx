@@ -64,7 +64,7 @@ const ImagePage = () => {
     <div>
       <Heading
         title="Generate Image"
-        description="Our most advanced conversation model"
+        description="Our most advanced image model"
         icon={ImageIcon}
         iconColor="text-pink-700"
         bgColor="bg-pink-700/10"
