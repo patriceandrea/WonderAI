@@ -19,7 +19,7 @@ import {
   Music,
   VideoIcon,
   Check,
-  Zap
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -90,13 +90,9 @@ const ProModal = () => {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-            size="lg"
-            variant="premium"
-            className="w-full"
-            >
+            <Button size="lg" variant="premium" className="w-full">
               Upgrade
-              <Zap className="w-4 h-4 ml-2 fill-white"/>
+              <Zap className="w-4 h-4 ml-2 fill-white" />
             </Button>
           </DialogFooter>
         </DialogContent>

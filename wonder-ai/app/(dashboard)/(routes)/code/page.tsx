@@ -19,10 +19,13 @@ import ReactMarkdown from "react-markdown";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
+import { useProModal } from "@/hooks/use-pro-modal";
 import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/ui/bot-avatar";
 
+
 const CodePage = () => {
+  const proModal = useProModal();
   const router = useRouter();
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
@@ -53,8 +56,9 @@ const CodePage = () => {
 
       form.reset();
     } catch (error: any) {
-      //ToDo: Open Pro model
-      console.log(error);
+      if(error?.response?.status === 403){
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }

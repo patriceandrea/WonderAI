@@ -27,9 +27,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
-// import { SelectContent, SelectTrigger, SelectValue } from "@radix-ui/react-select";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 const ImagePage = () => {
+  const proModal = useProModal();
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
 
@@ -53,8 +54,9 @@ const ImagePage = () => {
       setImages(urls);
       form.reset();
     } catch (error: any) {
-      //ToDo: Open Pro model
-      console.log(error);
+      if(error?.response?.status === 403){
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }
