@@ -1,7 +1,6 @@
 "use client";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { UserButton } from "@clerk/nextjs";
 import {
   ArrowRight,
   Code,
