@@ -4,7 +4,7 @@ import * as z from "zod";
 import { Music, Video, VideoIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-
+import { toast } from "react-hot-toast";
 
 import Heading from "@/components/heading";
 import Empty from "@/components/empty";
@@ -45,6 +45,8 @@ const VideoPage = () => {
     } catch (error: any) {
       if(error?.response?.status === 403){
         proModal.onOpen();
+      } else{
+        toast.error(error?.response?.data?.message || "Something went wrong"); 
       }
     } finally {
       router.refresh();

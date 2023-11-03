@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 
 const MusicPage = () => {
@@ -45,6 +46,8 @@ const MusicPage = () => {
     } catch (error: any) {
       if(error?.response?.status === 403){
         proModal.onOpen();
+      } else{
+        toast.error(error?.response?.data?.message || "Something went wrong")
       }
     } finally {
       router.refresh();

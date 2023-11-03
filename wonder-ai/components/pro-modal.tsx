@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const ProModal = () => {
   const proModal = useProModal();
@@ -36,7 +37,7 @@ const ProModal = () => {
 
       window.location.href = response.data.url;
     } catch (error) {
-      console.log("STRIPE_CLIENT_ERROR", error);
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -107,6 +108,7 @@ const ProModal = () => {
           </DialogHeader>
           <DialogFooter>
             <Button
+            disabled={loading}
               onClick={onSubscribe}
               size="lg"
               variant="premium"

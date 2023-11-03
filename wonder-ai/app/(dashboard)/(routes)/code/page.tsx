@@ -5,6 +5,7 @@ import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import OpenAI from "openai";
+import toast from "react-hot-toast";
 
 import Heading from "@/components/heading";
 import Empty from "@/components/empty";
@@ -41,6 +42,7 @@ const CodePage = () => {
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+   
       const userMessage: OpenAI.Chat.ChatCompletionMessageParam = {
         role: "user",
         content: values.prompt,
@@ -58,6 +60,8 @@ const CodePage = () => {
     } catch (error: any) {
       if(error?.response?.status === 403){
         proModal.onOpen();
+      }else {
+        toast.error("Something went wrong"); 
       }
     } finally {
       router.refresh();
